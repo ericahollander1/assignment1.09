@@ -698,7 +698,7 @@ uint32_t io_monster_desc(dungeon *d)
 //    d->PC->position[dim_x] = dest[dim_x];
 
       mvprintw(0, 0,
-               "%s", d->character_map[dest[dim_y]][dest[dim_x]].descriptions);
+               "%s", (npc*)d->character_map[dest[dim_y]][dest[dim_x]]->name);
   }
 
   //pc_observe_terrain(d->PC, d);
@@ -1134,6 +1134,7 @@ void io_handle_input(dungeon *d)
       fail_code = 1;
       break;
     case 'L':
+        io_monster_desc(d);
       fail_code = 1;
       break;
     case 'g':
@@ -1141,10 +1142,6 @@ void io_handle_input(dungeon *d)
       io_teleport_pc(d);
       fail_code = 1;
       break;
-    case 'L':
-        io_monster_desc(d);
-        fail_code = 1;
-        break;
     case 'f':
       io_display_no_fog(d);
       fail_code = 1;
