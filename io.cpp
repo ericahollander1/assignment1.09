@@ -12,7 +12,6 @@
 #include "object.h"
 #include "npc.h"
 #include "character.h"
-#include "descriptions.h"
 
 /* Same ugly hack we did in path.c */
 static dungeon *thedungeon;
@@ -544,7 +543,7 @@ void io_display_monster_list(dungeon *d)
   getch();
 }
 
-uint32_t io_teleport_pc(dungeon *d)
+uint32_t io_monster_desc(dungeon *d)
 {
   pair_t dest;
   int c;
@@ -555,7 +554,7 @@ uint32_t io_teleport_pc(dungeon *d)
   io_display_no_fog(d);
 
   mvprintw(0, 0,
-           "Choose a location.  'g' or '.' to teleport to; 'r' for random.");
+           "Choose a monster 't' to view monster description.");
 
   dest[dim_y] = d->PC->position[dim_y];
   dest[dim_x] = d->PC->position[dim_x];
@@ -673,34 +672,213 @@ uint32_t io_teleport_pc(dungeon *d)
       }
       break;
     }
-  } while (c != 'g' && c != '.' && c != 'r');
+  } while (c != 't');
 
-  if (c == 'r') {
-    do {
-      dest[dim_x] = rand_range(1, DUNGEON_X - 2);
-      dest[dim_y] = rand_range(1, DUNGEON_Y - 2);
-    } while (charpair(dest) || mappair(dest) < ter_floor);
-  }
+       // check if it is on a monster
+        if((npc*)d->character_map[dest[dim_y]][dest[dim_x]] != NULL && d->character_map[dest[dim_y]][dest[dim_x]] != d->PC){
+            mvprintw(0,0,"hello");
+        }
 
-  if (charpair(dest) && charpair(dest) != d->PC) {
-    io_queue_message("Teleport failed.  Destination occupied.");
-  } else {  
-    d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = NULL;
-    d->character_map[dest[dim_y]][dest[dim_x]] = d->PC;
+//  if (c == 'r') {
+//    do {
+//      dest[dim_x] = rand_range(1, DUNGEON_X - 2);
+//      dest[dim_y] = rand_range(1, DUNGEON_Y - 2);
+//    } while (charpair(dest) || mappair(dest) < ter_floor);
+//  }
+//
+  //if (charpair(dest) && charpair(dest) != d->PC) {
+  //  io_queue_message("No monster here.");
+ // }
+  //else {
+//    d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = NULL;
+//    d->character_map[dest[dim_y]][dest[dim_x]] = d->PC;
+//
+//    d->PC->position[dim_y] = dest[dim_y];
+//    d->PC->position[dim_x] = dest[dim_x];
 
-    d->PC->position[dim_y] = dest[dim_y];
-    d->PC->position[dim_x] = dest[dim_x];
-  }
+//      mvprintw(0, 0,
+//               "%s", (npc*)d->character_map[dest[dim_y]][dest[dim_x]]->name);
 
-  pc_observe_terrain(d->PC, d);
-  dijkstra(d);
-  dijkstra_tunnel(d);
 
-  io_display(d);
+//  }
 
-  return 0;
+  //pc_observe_terrain(d->PC, d);
+  //dijkstra(d);
+  //dijkstra_tunnel(d);
+
+    io_display(d);
+    // refresh();
+    while (getch() != 27 /* escape */){
+        if((npc*)d->character_map[dest[dim_y]][dest[dim_x]] != NULL && d->character_map[dest[dim_y]][dest[dim_x]] != d->PC){
+            mvprintw(0,0,"%s Press escape to continue gameplay ;)",((npc*)d->character_map[dest[dim_y]][dest[dim_x]])->description);
+
+            refresh();
+        }
+        else {
+            mvprintw(0, 0, "There is no monster there. Please press escape to continue");
+            refresh();
+        }
+
+    }
+    io_display(d);
+    return 0;
 }
+uint32_t io_teleport_pc(dungeon *d)
+{
+    pair_t dest;
+    int c;
+    fd_set readfs;
+    struct timeval tv;
 
+    pc_reset_visibility(d->PC);
+    io_display_no_fog(d);
+
+    mvprintw(0, 0,
+             "Choose a location.  'g' or '.' to teleport to; 'r' for random.");
+
+    dest[dim_y] = d->PC->position[dim_y];
+    dest[dim_x] = d->PC->position[dim_x];
+
+    mvaddch(dest[dim_y] + 1, dest[dim_x], '*');
+    refresh();
+
+    do {
+        do{
+            FD_ZERO(&readfs);
+            FD_SET(STDIN_FILENO, &readfs);
+
+            tv.tv_sec = 0;
+            tv.tv_usec = 125000; /* An eigth of a second */
+
+            io_redisplay_non_terrain(d, dest);
+        } while (!select(STDIN_FILENO + 1, &readfs, NULL, NULL, &tv));
+        /* Can simply draw the terrain when we move the cursor away, *
+         * because if it is a character or object, the refresh       *
+         * function will fix it for us.                              */
+        switch (mappair(dest)) {
+            case ter_wall:
+            case ter_wall_immutable:
+            case ter_unknown:
+                mvaddch(dest[dim_y] + 1, dest[dim_x], ' ');
+                break;
+            case ter_floor:
+            case ter_floor_room:
+                mvaddch(dest[dim_y] + 1, dest[dim_x], '.');
+                break;
+            case ter_floor_hall:
+                mvaddch(dest[dim_y] + 1, dest[dim_x], '#');
+                break;
+            case ter_debug:
+                mvaddch(dest[dim_y] + 1, dest[dim_x], '*');
+                break;
+            case ter_stairs_up:
+                mvaddch(dest[dim_y] + 1, dest[dim_x], '<');
+                break;
+            case ter_stairs_down:
+                mvaddch(dest[dim_y] + 1, dest[dim_x], '>');
+                break;
+            default:
+                /* Use zero as an error symbol, since it stands out somewhat, and it's *
+                 * not otherwise used.                                                 */
+                mvaddch(dest[dim_y] + 1, dest[dim_x], '0');
+        }
+        switch ((c = getch())) {
+            case '7':
+            case 'y':
+            case KEY_HOME:
+                if (dest[dim_y] != 1) {
+                    dest[dim_y]--;
+                }
+                if (dest[dim_x] != 1) {
+                    dest[dim_x]--;
+                }
+                break;
+            case '8':
+            case 'k':
+            case KEY_UP:
+                if (dest[dim_y] != 1) {
+                    dest[dim_y]--;
+                }
+                break;
+            case '9':
+            case 'u':
+            case KEY_PPAGE:
+                if (dest[dim_y] != 1) {
+                    dest[dim_y]--;
+                }
+                if (dest[dim_x] != DUNGEON_X - 2) {
+                    dest[dim_x]++;
+                }
+                break;
+            case '6':
+            case 'l':
+            case KEY_RIGHT:
+                if (dest[dim_x] != DUNGEON_X - 2) {
+                    dest[dim_x]++;
+                }
+                break;
+            case '3':
+            case 'n':
+            case KEY_NPAGE:
+                if (dest[dim_y] != DUNGEON_Y - 2) {
+                    dest[dim_y]++;
+                }
+                if (dest[dim_x] != DUNGEON_X - 2) {
+                    dest[dim_x]++;
+                }
+                break;
+            case '2':
+            case 'j':
+            case KEY_DOWN:
+                if (dest[dim_y] != DUNGEON_Y - 2) {
+                    dest[dim_y]++;
+                }
+                break;
+            case '1':
+            case 'b':
+            case KEY_END:
+                if (dest[dim_y] != DUNGEON_Y - 2) {
+                    dest[dim_y]++;
+                }
+                if (dest[dim_x] != 1) {
+                    dest[dim_x]--;
+                }
+                break;
+            case '4':
+            case 'h':
+            case KEY_LEFT:
+                if (dest[dim_x] != 1) {
+                    dest[dim_x]--;
+                }
+                break;
+        }
+    } while (c != 'g' && c != '.' && c != 'r');
+
+    if (c == 'r') {
+        do {
+            dest[dim_x] = rand_range(1, DUNGEON_X - 2);
+            dest[dim_y] = rand_range(1, DUNGEON_Y - 2);
+        } while (charpair(dest) || mappair(dest) < ter_floor);
+    }
+
+    if (charpair(dest) && charpair(dest) != d->PC) {
+        io_queue_message("Teleport failed.  Destination occupied.");
+    } else {
+        d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = NULL;
+        d->character_map[dest[dim_y]][dest[dim_x]] = d->PC;
+
+        d->PC->position[dim_y] = dest[dim_y];
+        d->PC->position[dim_x] = dest[dim_x];
+    }
+
+    pc_observe_terrain(d->PC, d);
+    dijkstra(d);
+    dijkstra_tunnel(d);
+
+    io_display(d);
+
+    return 0;
+}
 /* Adjectives to describe our monsters */
 static const char *adjectives[] = {
   "A menacing ",
@@ -865,6 +1043,7 @@ static void io_list_monsters(dungeon *d)
   /* And redraw the dungeon */
   io_display(d);
 }
+
 void io_display_carry_description(dungeon *d, int index){
     if(d->carry[index]!=NULL){
         mvprintw(0, 6,"%s (sp: %d, dmg: %d+%dd%d", d->carry[index]->get_type(), d->carry[index]->get_speed(), d->carry[index]->get_damage_base(), d->carry[index]->get_damage_number(), d->carry[index]->get_damage_sides());
@@ -875,6 +1054,7 @@ void io_display_carry_description(dungeon *d, int index){
         mvprintw(0, 6, "No object in carry slot");
     }
 }
+
 void io_display_carry(dungeon *d) {
     int key;
     int escape=1;
@@ -922,6 +1102,8 @@ void io_display_carry(dungeon *d) {
 
     }while (escape);
 }
+
+
 
 void io_handle_input(dungeon *d)
 {
@@ -1001,10 +1183,6 @@ void io_handle_input(dungeon *d)
     case '<':
       fail_code = move_pc(d, '<');
       break;
-
-    case'I':
-        io_display_carry(d);
-        break;
     case 'Q':
       d->quit = 1;
       fail_code = 0;
@@ -1031,6 +1209,7 @@ void io_handle_input(dungeon *d)
       fail_code = 1;
       break;
     case 'L':
+        io_monster_desc(d);
       fail_code = 1;
       break;
     case 'g':
