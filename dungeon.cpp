@@ -59,10 +59,6 @@ static uint32_t is_open_space(dungeon *d, int16_t y, int16_t x)
   return !hardnessxy(x, y);
 }
 
-static int32_t corridor_path_cmp(const void *key, const void *with) {
-  return ((corridor_path_t *) key)->cost - ((corridor_path_t *) with)->cost;
-}
-
 void pickup_object(dungeon *d, character *PC,  pair_t new_position){
     for (int i = 0; i < 10; i++){
         if(d->carry[i] == NULL){
@@ -75,6 +71,11 @@ void drop_object(dungeon *d, character *PC, int dropped_index){
     d->objmap[PC->position[dim_x]][PC->position[dim_y]]= d->carry[dropped_index];
     d->carry[dropped_index] = NULL;
 }
+
+static int32_t corridor_path_cmp(const void *key, const void *with) {
+  return ((corridor_path_t *) key)->cost - ((corridor_path_t *) with)->cost;
+}
+
 static void dijkstra_corridor(dungeon *d, pair_t from, pair_t to)
 {
   static corridor_path_t path[DUNGEON_Y][DUNGEON_X], *p;

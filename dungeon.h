@@ -63,7 +63,7 @@ class object;
 class dungeon {
  public:
   dungeon() : num_rooms(0), rooms(0), map{ter_wall}, hardness{0},
-              pc_distance{0}, pc_tunnel{0}, character_map{0}, objmap{0}, carry{0}, equipped{0}, PC(0),
+              pc_distance{0}, pc_tunnel{0}, character_map{0}, PC(0),
               num_monsters(0), max_monsters(0), character_sequence_number(0),
               time(0), is_new(0), quit(0), monster_descriptions(),
               object_descriptions() {}
@@ -116,5 +116,7 @@ void render_distance_map(dungeon *d);
 void render_tunnel_distance_map(dungeon *d);
 void init_dungeon(dungeon *d);
 void pc_see_object(character *the_pc, object *o);
+void pickup_object(dungeon *d, character *PC,  pair_t new_position);
+void drop_object(dungeon *d, character *PC, int dropped_index);
 
 #endif

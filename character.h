@@ -7,7 +7,6 @@
 
 # include "dims.h"
 # include "utils.h"
-#include "object.h"
 
 typedef enum kill_type {
   kill_direct,

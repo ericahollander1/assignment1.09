@@ -15,7 +15,6 @@
 #include "event.h"
 #include "io.h"
 #include "npc.h"
-#include "object.h"
 
 void do_combat(dungeon *d, character *atk, character *def)
 {
