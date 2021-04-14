@@ -63,7 +63,7 @@ class object;
 class dungeon {
  public:
   dungeon() : num_rooms(0), rooms(0), map{ter_wall}, hardness{0},
-              pc_distance{0}, pc_tunnel{0}, character_map{0}, PC(0),
+              pc_distance{0}, pc_tunnel{0}, character_map{0}, objmap{0}, carry{0}, equipped{0}, PC(0),
               num_monsters(0), max_monsters(0), character_sequence_number(0),
               time(0), is_new(0), quit(0), monster_descriptions(),
               object_descriptions() {}
@@ -83,6 +83,8 @@ class dungeon {
   uint8_t pc_tunnel[DUNGEON_Y][DUNGEON_X];
   character *character_map[DUNGEON_Y][DUNGEON_X];
   object *objmap[DUNGEON_Y][DUNGEON_X];
+  object *carry[10];
+  object *equipped[12];
   pc *PC;
   heap_t events;
   uint16_t num_monsters;
