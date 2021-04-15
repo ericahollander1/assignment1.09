@@ -1522,6 +1522,25 @@ void io_display_equipment(dungeon *d){
 
 
 }
+void io_display_hp(dungeon *d){
+    int key;
+    int escape = 1;
+    //io_queue_message("You smite %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
+    mvprintw(0, 6, "hp: %d", d->PC->hp);
+    io_display(d);
+    do {
+        switch (key = getch()) {
+            case 27:
+                escape = 0;
+                break;
+            default:
+                mvprintw(0, 6, "not a valid key: hp: %d", d->PC->hp);
+        }
+
+    }while (escape);
+    refresh();
+    io_display(d);
+}
 void io_display_drop(dungeon *d){
     int key;
     int escape = 1;
@@ -1834,6 +1853,9 @@ void io_handle_input(dungeon *d)
                                  "be no \"more\" prompt.");
                 io_queue_message("Have fun!  And happy printing!");
                 fail_code = 0;
+                break;
+            case '?':
+                io_display_hp(d);
                 break;
             default:
                 /* Also not in the spec.  It's not always easy to figure out what *
