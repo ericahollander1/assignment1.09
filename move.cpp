@@ -45,7 +45,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             "spleen",                  /* 22 */
             "ganglia",                 /* 23 */
             "ear",                     /* 24 */
-            "subcutaneous tissue"      /* 25 */
+            "subcutaneous tissue",      /* 25 */
             "cerebellum",              /* 26 */ /* Brain parts begin here */
             "hippocampus",             /* 27 */
             "frontal lobe",            /* 28 */
@@ -58,17 +58,16 @@ void do_combat(dungeon *d, character *atk, character *def)
     //def->alive = 0;
     //charpair(def->position) = NULL;
 
-    if (def == d->PC && atk != d->PC) { //if defense is not the pc and attack is pc
+    if (def == d->PC && atk != d->PC) { //if defense is the pc and attack is npc
         //roll die and take damage hitpoints from monster
         int damage = d->PC->damage->roll();
         def->hp-=damage;
         io_queue_message("You smite %s%s!  with %d hp", is_unique(def) ? "" : "the", def->name, def->hp);
 
         if(def->hp <= 0){
-            def->alive = 0;
-            d->num_monsters--;
-            d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
-            io_queue_message("You killed %s%s!", is_unique(def) ? "" : "the ", def->name);
+            d->PC->alive = 0;
+            //d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
+            io_queue_message("You were killed by %s%s!", is_unique(def) ? "" : "the ", def->name);
         }
     }
     //}
@@ -98,6 +97,7 @@ void do_combat(dungeon *d, character *atk, character *def)
               atk->kills[kill_direct]++;
               atk->kills[kill_avenged] += (def->kills[kill_direct] +
                                            def->kills[kill_avenged]);
+              d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
           }
     }
 
@@ -153,7 +153,7 @@ void do_combat1(dungeon *d, character *atk, character *def)
     "spleen",                  /* 22 */
     "ganglia",                 /* 23 */
     "ear",                     /* 24 */
-    "subcutaneous tissue"      /* 25 */
+    "subcutaneous tissue" ,     /* 25 */
     "cerebellum",              /* 26 */ /* Brain parts begin here */
     "hippocampus",             /* 27 */
     "frontal lobe",            /* 28 */
