@@ -59,10 +59,11 @@ void do_combat(dungeon *d, character *atk, character *def)
     //charpair(def->position) = NULL;
 
     if (def == d->PC && atk != d->PC) { //if defense is not the pc and attack is pc
-        io_queue_message("You smite %s%s!", is_unique(def) ? "" : "the ", def->name);
         //roll die and take damage hitpoints from monster
         int damage = d->PC->damage->roll();
         def->hp-=damage;
+        io_queue_message("You smite %s%s!  with %d hp", is_unique(def) ? "" : "the", def->name, def->hp);
+
         if(def->hp <= 0){
             def->alive = 0;
             d->num_monsters--;
@@ -74,18 +75,18 @@ void do_combat(dungeon *d, character *atk, character *def)
 
     if (atk == d->PC) { //if attacker is the pc and defense is npc
         if ((part = rand() % (sizeof (organs) / sizeof (organs[0]))) < 26) {
-            io_queue_message("As %s%s eats your %s,", is_unique(atk) ? "" : "the ",
+            io_queue_message("As %s%s eats your %s,  with %d hp", is_unique(atk) ? "" : "the ",
                              atk->name, organs[rand() % (sizeof (organs) /
-                                                         sizeof (organs[0]))]);
+                                                         sizeof (organs[0]))], d->PC->hp);
             io_queue_message("   ...you wonder if there is an afterlife.");
             /* Queue an empty message, otherwise the game will not pause for *
              * player to see above.                                          */
             io_queue_message("");
         } else {
             io_queue_message("Your last thoughts fade away as "
-                             "%s%s eats your %s...",
+                             "%s%s eats your %s...  with %d hp",
                              is_unique(atk) ? "" : "the ",
-                             atk->name, organs[part]);
+                             atk->name, organs[part], d->PC->hp);
             io_queue_message("");
         }//roll die and take damage hitpoints from monster
             int damage = atk->damage->roll();
