@@ -11,6 +11,7 @@
 #include "dungeon.h"
 #include "object.h"
 #include "npc.h"
+#include "string.h"
 #include "character.h"
 
 /* Same ugly hack we did in path.c */
@@ -1486,12 +1487,12 @@ void io_display_carry(dungeon *d){
 void io_display_equipment(dungeon *d){
     int key;
     int escape=1;
-    char *alpha = "abcdefghijkl";
+    
     io_display(d);
     mvprintw(0, 6, "Equipment please choose to either takeoff(t) or expunge item(x) or ESC");
     for (int i = 0; i < 12; i++) {
         if (d->equipped[i] != NULL) {
-            mvprintw(i+1, 6, "%c)   %s", alpha+i, d->equipped[i]->get_name());
+            mvprintw(i+1, 6, "%c)   %s", hardness_to_char[i+10], d->equipped[i]->get_name());
         }
         else{
             mvprintw(i+1, 6, "%d)", i);
