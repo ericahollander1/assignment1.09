@@ -1061,7 +1061,7 @@ void io_display_carry_description(dungeon *d, int index){
         }
     }
     io_display(d);
-    io_display_carry(d);
+    //io_display_carry(d);
 
 }
 
