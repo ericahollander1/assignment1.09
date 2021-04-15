@@ -367,7 +367,7 @@ void io_display_carry(dungeon *d) {
             case '9':
                 io_display_carry_description(d, 9);
                 break;
-            case 'ESC':
+            case 'E':
                 escape = 0;
                 break;
             default:
