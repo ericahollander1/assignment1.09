@@ -1081,15 +1081,15 @@ void io_display_carry(dungeon *d){
     do {
         switch (key = getch()) {
             case 'd':
-                drop_object(d, d->PC, 0);
+                io_display_drop(d);
                 io_display(d);
                 break;
             case 'w':
-                drop_object(d, d->PC, 1);
+                io_inspect_carry(d);
                 io_display(d);
                 break;
             case 'i':
-                drop_object(d, d->PC, 2);
+                io_inspect_carry(d);
                 io_display(d);
                 break;
             case 27:
