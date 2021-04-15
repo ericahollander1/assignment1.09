@@ -70,7 +70,7 @@ void pickup_object(dungeon *d, character *PC,  pair_t new_position){
     }
 }
 bool wear_object(dungeon *d,  int carry_index){
-  
+
     bool filled = false, open = true, ring = false, correct = false;
 
     for (int i = 0; i < 12; i++){
@@ -97,7 +97,9 @@ bool wear_object(dungeon *d,  int carry_index){
                 d->equipped[i]=d->carry[carry_index];
                 d->type_of_slot[i] = (object_type)d->carry[carry_index]->get_type();
                 d->carry[carry_index]=NULL;
+                i = 12;
                 filled = true;
+
             }
 
         }
