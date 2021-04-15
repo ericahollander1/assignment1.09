@@ -62,12 +62,14 @@ void do_combat(dungeon *d, character *atk, character *def)
         //roll die and take damage hitpoints from monster
         int damage = d->PC->damage->roll();
         def->hp-=damage;
-        io_queue_message("You smite %s%s!  with %d hp", is_unique(def) ? "" : "the", def->name, def->hp);
 
         if(def->hp <= 0){
             d->PC->alive = 0;
             //d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
             io_queue_message("You were killed by %s%s!", is_unique(def) ? "" : "the ", def->name);
+        }
+        else{
+            io_queue_message("You smite %s%s!  with %d hp", is_unique(def) ? "" : "the", def->name, def->hp);
         }
     }
     //}
@@ -289,8 +291,9 @@ void do_moves(dungeon *d)
 
     npc_next_pos(d, (npc *) c, next);
     move_character(d, (npc *) c, next);
-
-    heap_insert(&d->events, update_event(d, e, 1000 / c->speed));
+    if(charpair(next)->alive){
+          heap_insert(&d->events, update_event(d, e, 1000 / c->speed));
+    }
   }
 
   io_display(d);
