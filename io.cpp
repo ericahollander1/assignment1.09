@@ -1063,8 +1063,11 @@ void io_display_carry(dungeon *d) {
         if (d->carry[i] != NULL) {
             mvprintw(i, 6, "%d)   %s", i, d->carry[i]->get_name());
         }
+        else{
+            mvprintw(i, 6, "%d)", i);
+        }
     }
-    
+
     refresh();
     do {
         switch (key = getch()) {
