@@ -679,36 +679,11 @@ void io_monster_desc(dungeon *d)
             mvprintw(0,0,"hello");
         }
 
-//  if (c == 'r') {
-//    do {
-//      dest[dim_x] = rand_range(1, DUNGEON_X - 2);
-//      dest[dim_y] = rand_range(1, DUNGEON_Y - 2);
-//    } while (charpair(dest) || mappair(dest) < ter_floor);
-//  }
-//
-  //if (charpair(dest) && charpair(dest) != d->PC) {
-  //  io_queue_message("No monster here.");
- // }
-  //else {
-//    d->character_map[d->PC->position[dim_y]][d->PC->position[dim_x]] = NULL;
-//    d->character_map[dest[dim_y]][dest[dim_x]] = d->PC;
-//
-//    d->PC->position[dim_y] = dest[dim_y];
-//    d->PC->position[dim_x] = dest[dim_x];
-
-//      mvprintw(0, 0,
-//               "%s", (npc*)d->character_map[dest[dim_y]][dest[dim_x]]->name);
-
-
-//  }
-
-  //pc_observe_terrain(d->PC, d);
-  //dijkstra(d);
-  //dijkstra_tunnel(d);
-
     io_display(d);
+        int inWhile = 1;
     // refresh();
-    while (getch() != 27 /* escape */){
+    while (getch() != 27 /* escape */ || inWhile){
+        inWhile = 0;
         if((npc*)d->character_map[dest[dim_y]][dest[dim_x]] != NULL && d->character_map[dest[dim_y]][dest[dim_x]] != d->PC){
             mvprintw(0,0,"%s Press escape to continue gameplay ;)",((npc*)d->character_map[dest[dim_y]][dest[dim_x]])->description);
 
