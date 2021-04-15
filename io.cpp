@@ -1131,7 +1131,186 @@ void io_expunge(dungeon *d) {
     refresh();
     io_display(d);
 }
+void io_expunge_equipment(dungeon *d) {
+    int key;
+    int escape = 1;
 
+    do {
+        switch (key = getch()) {
+            case 'a':
+                delete(d->equipped[0]);
+                d->equipped[0] = NULL;
+                io_display(d);
+                break;
+            case 'b':
+                delete(d->equipped[1]);
+                d->equipped[1] = NULL;
+                io_display(d);
+                io_display(d);
+                break;
+            case 'c':
+                delete(d->equipped[2]);
+                d->equipped[2] = NULL;
+                io_display(d);
+                break;
+            case 'd':
+                delete(d->equipped[3]);
+                d->equipped[3] = NULL;
+                io_display(d);
+                break;
+            case 'e':
+                delete(d->equipped[4]);
+                d->equipped[4] = NULL;
+                io_display(d);
+                break;
+            case 'f':
+                delete(d->equipped[5]);
+                d->equipped[5] = NULL;
+                io_display(d);
+                break;
+            case 'g':
+                delete(d->equipped[6]);
+                d->equipped[6] = NULL;
+                io_display(d);
+                break;
+            case 'h':
+                delete(d->equipped[7]);
+                d->equipped[7] = NULL;
+                io_display(d);
+                break;
+            case 'i':
+                delete(d->equipped[8]);
+                d->equipped[8] = NULL;
+                io_display(d);
+                break;
+            case 'j':
+                delete(d->equipped[9]);
+                d->equipped[9] = NULL;
+                io_display(d);
+                break;
+            case 'k':
+                delete(d->equipped[10]);
+                d->equipped[10] = NULL;
+                io_display(d);
+                break;
+            case 'l':
+                delete(d->equipped[11]);
+                d->equipped[11] = NULL;
+                io_display(d);
+                break;
+            case 27:
+                escape = 0;
+                break;
+        }
+
+    }while (escape);
+    refresh();
+    io_display(d);
+}
+void io_display_wear(dungeon *d){
+    int key;
+    int escape = 1;
+    do {
+        switch (key = getch()) {
+            case '0':
+                if(d->carry[0]!=NULL){
+                    wear_object(d, 0);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case '1':
+                if(d->carry[1]!=NULL) {
+                    wear_object(d, 1);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case '2':
+                if(d->carry[2]!=NULL) {
+                    wear_object(d, 2);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case '3':
+                if(d->carry[3]!=NULL) {
+                    wear_object(d, 3);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case '4':
+                if(d->carry[4]!=NULL) {
+                    wear_object(d, 4);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case '5':
+                if(d->carry[5]!=NULL) {
+                    wear_object(d, 5);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case '6':
+                if(d->carry[6]!=NULL) {
+                    wear_object(d, 6);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case '7':
+                if(d->carry[7]!=NULL) {
+                    wear_object(d, 7);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case '8':
+                if(d->carry[8]!=NULL) {
+                    wear_object(d, 8);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case '9':
+                if(d->carry[9]!=NULL) {
+                    wear_object(d, 9);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
+                break;
+            case 27:
+                escape = 0;
+                break;
+        }
+
+    }while (escape);
+    refresh();
+    io_display(d);
+}
 void io_display_carry(dungeon *d){
     int key;
     int escape=1;
@@ -1154,7 +1333,7 @@ void io_display_carry(dungeon *d){
                 break;
             case 'w':
                 mvprintw(0, 6, "input 0-9 to wear");
-                io_inspect_carry(d);
+                io_display_wear(d);
                 io_display(d);
                 break;
             case 'I':
@@ -1162,8 +1341,45 @@ void io_display_carry(dungeon *d){
                 io_inspect_carry(d);
                 io_display(d);
                 break;
-            case 'X':
+            case 'x':
                 mvprintw(0, 6, "choose 0-9 to expunge from the game");
+                io_expunge(d);
+                io_display(d);
+                break;
+            case 27:
+                escape = 0;
+                break;
+        }
+
+    }while (escape);
+    refresh();
+    io_display(d);
+
+
+}
+void io_display_equipment(dungeon *d){
+    int key;
+    int escape=1;
+    io_display(d);
+    mvprintw(0, 6, "Equipment please choose to either takeoff(t) or expunge item(x) or ESC");
+    for (int i = 0; i < 12; i++) {
+        if (d->equipped[i] != NULL) {
+            mvprintw(i+1, 6, "%d)   %s", i, d->equipped[i]->get_name());
+        }
+        else{
+            mvprintw(i+1, 6, "%d)", i);
+        }
+    }
+
+    do {
+        switch (key = getch()) {
+            case 't':
+                mvprintw(0, 6, "input a-l to take off");
+                io_inspect_carry(d);
+                io_display(d);
+                break;
+            case 'x':
+                mvprintw(0, 6, "choose a-l to expunge from the game");
                 io_expunge(d);
                 io_display(d);
                 break;

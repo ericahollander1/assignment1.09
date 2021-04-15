@@ -85,6 +85,7 @@ class dungeon {
   object *objmap[DUNGEON_Y][DUNGEON_X];
   object *carry[10];
   object *equipped[12];
+  object_type type_of_slot[12];
   pc *PC;
   heap_t events;
   uint16_t num_monsters;
@@ -118,5 +119,6 @@ void init_dungeon(dungeon *d);
 void pc_see_object(character *the_pc, object *o);
 void pickup_object(dungeon *d, character *PC,  pair_t new_position);
 void drop_object(dungeon *d, character *PC, int dropped_index);
+bool wear_object(dungeon *d,  int carry_index);
 
 #endif
