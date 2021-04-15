@@ -67,6 +67,7 @@ void do_combat(dungeon *d, character *atk, character *def)
         if(def->hp <= 0){
             def->alive = 0;
             d->num_monsters--;
+            d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
             io_queue_message("You killed %s%s!", is_unique(def) ? "" : "the ", def->name);
         }
     }
@@ -78,7 +79,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             io_queue_message("As %s%s eats your %s,  with %d hp", is_unique(atk) ? "" : "the ",
                              atk->name, organs[rand() % (sizeof (organs) /
                                                          sizeof (organs[0]))], d->PC->hp);
-            io_queue_message("   ...you wonder if there is an afterlife.");
+            io_queue_message("   ...you wonder if there is an afterlife.  with %d hp", d->PC->hp);
             /* Queue an empty message, otherwise the game will not pause for *
              * player to see above.                                          */
             io_queue_message("");
@@ -94,7 +95,6 @@ void do_combat(dungeon *d, character *atk, character *def)
           def->hp-=damage;
           if(def->hp <= 0){
               def->alive = 0;
-              d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
               atk->kills[kill_direct]++;
               atk->kills[kill_avenged] += (def->kills[kill_direct] +
                                            def->kills[kill_avenged]);
