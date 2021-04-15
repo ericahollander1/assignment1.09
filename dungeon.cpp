@@ -71,7 +71,7 @@ void pickup_object(dungeon *d, character *PC,  pair_t new_position){
 }
 
 void drop_object(dungeon *d, character *PC, int dropped_index){
-    d->objmap[PC->position[dim_x]][PC->position[dim_y]]= d->carry[dropped_index];
+    d->objmap[PC->position[dim_y]][PC->position[dim_x]]= d->carry[dropped_index];
     d->carry[dropped_index] = NULL;
 }
 
