@@ -1045,14 +1045,20 @@ static void io_list_monsters(dungeon *d)
 }
 
 void io_display_carry_description(dungeon *d, int index){
-    if(d->carry[index]!=NULL){
-        mvprintw(0, 6,"%s (sp: %d, dmg: %d+%dd%d", d->carry[index]->get_type(), d->carry[index]->get_speed(), d->carry[index]->get_damage_base(), d->carry[index]->get_damage_number(), d->carry[index]->get_damage_sides());
-        mvprintw(1, 6, "description");
-        mvprintw(2, 6, "hit any key to continue");
-    }
-    else{
-        mvprintw(0, 6, "No object in carry slot");
-    }
+    refresh();
+    bool escape = 0;
+    while(getchar() != 27 || !escape){
+        escape = 1;
+        if(d->carry[index]!=NULL){
+            mvprintw(0, 6,"%s (sp: %d, dmg: %d+%dd%d", d->carry[index]->get_type(), d->carry[index]->get_speed(), d->carry[index]->get_damage_base(), d->carry[index]->get_damage_number(), d->carry[index]->get_damage_sides());
+            mvprintw(1, 6, "description");
+            mvprintw(2, 6, "hit any key to continue");
+        }
+        else{
+            mvprintw(0, 6, "No object in carry slot");
+        }
+    } 
+
 }
 
 void io_display_carry(dungeon *d) {
