@@ -1050,13 +1050,13 @@ void io_display_carry_description(dungeon *d, int index){
     while(getchar() != 27 || !escape){
         escape = 1;
         if(d->carry[index]!=NULL){
-            mvprintw(0, 6,"%s (sp: %d, dmg: %d+%dd%d)", d->carry[index]->get_name(), d->carry[index]->get_speed(), d->carry[index]->get_damage_base(), d->carry[index]->get_damage_number(), d->carry[index]->get_damage_sides());
-            mvprintw(1, 6, "%s", ((object *)d->carry[index])->get_description().c_str());
-            mvprintw(2, 6, "hit any key to continue");
+            mvprintw(1, 0,"%s (sp: %d, dmg: %d+%dd%d)", d->carry[index]->get_name(), d->carry[index]->get_speed(), d->carry[index]->get_damage_base(), d->carry[index]->get_damage_number(), d->carry[index]->get_damage_sides());
+            mvprintw(2, 0, "%s", ((object *)d->carry[index])->get_description().c_str());
+            mvprintw(16, 0, "hit any key to continue");
             refresh();
         }
         else{
-            mvprintw(0, 6, "No object in carry slot");
+            mvprintw(1, 0, "No object in carry slot");
             refresh();
         }
     }
@@ -1065,8 +1065,7 @@ void io_display_carry_description(dungeon *d, int index){
     //io_display_carry(d);
 
 }
-
-void io_display_carry(dungeon *d) {
+void io_display_carry(dungeon *d){
     int key;
     int escape=1;
     io_display(d);
@@ -1079,7 +1078,88 @@ void io_display_carry(dungeon *d) {
         }
     }
 
+    do {
+        switch (key = getch()) {
+            case 'd':
+                drop_object(d, d->PC, 0);
+                io_display(d);
+                break;
+            case 'w':
+                drop_object(d, d->PC, 1);
+                io_display(d);
+                break;
+            case 'i':
+                drop_object(d, d->PC, 2);
+                io_display(d);
+                break;
+            case 27:
+                escape = 0;
+                break;
+        }
+
+    }while (escape);
     refresh();
+    io_display(d);
+
+
+}
+void io_display_drop(dungeon *d){
+    int key;
+    int escape = 1;
+    do {
+        switch (key = getch()) {
+            case '0':
+                drop_object(d, d->PC, 0);
+                io_display(d);
+                break;
+            case '1':
+                drop_object(d, d->PC, 1);
+                io_display(d);
+                break;
+            case '2':
+                drop_object(d, d->PC, 2);
+                io_display(d);
+                break;
+            case '3':
+                drop_object(d, d->PC, 3);
+                io_display(d);
+                break;
+            case '4':
+                drop_object(d, d->PC, 4);
+                io_display(d);
+                break;
+            case '5':
+                drop_object(d, d->PC, 5);
+                io_display(d);
+                break;
+            case '6':
+                drop_object(d, d->PC, 6);
+                io_display(d);
+                break;
+            case '7':
+                drop_object(d, d->PC, 7);
+                io_display(d);
+                break;
+            case '8':
+                drop_object(d, d->PC, 8);
+                io_display(d);
+                break;
+            case '9':
+                drop_object(d, d->PC, 9);
+                io_display(d);
+                break;
+            case 27:
+                escape = 0;
+                break;
+        }
+
+    }while (escape);
+    refresh();
+    io_display(d);
+}
+void io_inspect_carry(dungeon *d) {
+    int key;
+
     do {
         switch (key = getch()) {
             case '0':
@@ -1213,7 +1293,11 @@ void io_handle_input(dungeon *d)
                 fail_code = move_pc(d, '<');
                 break;
             case 'i':
-                io_display_carry(d);
+                io_display_carry(d, 0);
+                fail_code = 1;
+                break;
+            case 'd':
+                io_display_carry(d, 1);
                 fail_code = 1;
                 break;
             case 'Q':
