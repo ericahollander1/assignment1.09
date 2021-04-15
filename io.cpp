@@ -1216,7 +1216,7 @@ void io_display_wear(dungeon *d){
             case '0':
                 if(d->carry[0]!=NULL){
                     item_worn = wear_object(d, 0);
-                    io_display(d);
+                    //io_display(d);
                     if(item_worn){
                         mvprintw(0, 6, "Object added to equipment press escape");
                     }
