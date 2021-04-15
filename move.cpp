@@ -15,9 +15,116 @@
 #include "event.h"
 #include "io.h"
 #include "npc.h"
-
+#include "object.h"
 void do_combat(dungeon *d, character *atk, character *def)
 {
+    //int can_see_atk, can_see_def;
+    const char *organs[] = {
+            "liver",                   /*  0 */
+            "pancreas",                /*  1 */
+            "heart",                   /*  2 */
+            "eye",                     /*  3 */
+            "arm",                     /*  4 */
+            "leg",                     /*  5 */
+            "intestines",              /*  6 */
+            "gall bladder",            /*  7 */
+            "lungs",                   /*  8 */
+            "hand",                    /*  9 */
+            "foot",                    /* 10 */
+            "spinal cord",             /* 11 */
+            "pituitary gland",         /* 12 */
+            "thyroid",                 /* 13 */
+            "tongue",                  /* 14 */
+            "bladder",                 /* 15 */
+            "diaphram",                /* 16 */
+            "stomach",                 /* 17 */
+            "pharynx",                 /* 18 */
+            "esophagus",               /* 19 */
+            "trachea",                 /* 20 */
+            "urethra",                 /* 21 */
+            "spleen",                  /* 22 */
+            "ganglia",                 /* 23 */
+            "ear",                     /* 24 */
+            "subcutaneous tissue"      /* 25 */
+            "cerebellum",              /* 26 */ /* Brain parts begin here */
+            "hippocampus",             /* 27 */
+            "frontal lobe",            /* 28 */
+            "brain",                   /* 29 */
+    };
+    int part;
+    pair_t temp;
+
+//    if (def->alive) {
+    //def->alive = 0;
+    //charpair(def->position) = NULL;
+
+    if (def == d->PC && atk != d->PC) { //if defense is not the pc and attack is pc
+        io_queue_message("You smite %s%s!", is_unique(def) ? "" : "the ", def->name);
+        //roll die and take damage hitpoints from monster
+        int damage = d->PC->damage->roll();
+        def->hp-=damage;
+        if(def->hp <= 0){
+            def->alive = 0;
+            d->num_monsters--;
+            io_queue_message("You killed %s%s!", is_unique(def) ? "" : "the ", def->name);
+        }
+    }
+    //}
+
+
+    if (atk == d->PC) { //if attacker is the pc and defense is npc
+        if ((part = rand() % (sizeof (organs) / sizeof (organs[0]))) < 26) {
+            io_queue_message("As %s%s eats your %s,", is_unique(atk) ? "" : "the ",
+                             atk->name, organs[rand() % (sizeof (organs) /
+                                                         sizeof (organs[0]))]);
+            io_queue_message("   ...you wonder if there is an afterlife.");
+            /* Queue an empty message, otherwise the game will not pause for *
+             * player to see above.                                          */
+            io_queue_message("");
+        } else {
+            io_queue_message("Your last thoughts fade away as "
+                             "%s%s eats your %s...",
+                             is_unique(atk) ? "" : "the ",
+                             atk->name, organs[part]);
+            io_queue_message("");
+        }//roll die and take damage hitpoints from monster
+            int damage = atk->damage->roll();
+
+          def->hp-=damage;
+          if(def->hp <= 0){
+              def->alive = 0;
+              atk->kills[kill_direct]++;
+              atk->kills[kill_avenged] += (def->kills[kill_direct] +
+                                           def->kills[kill_avenged]);
+          }
+    }
+
+    if (atk != d->PC && def != d->PC) { //if fued between two monsters
+        temp[dim_x] = atk->position[dim_x];
+        atk->position[dim_x] = def->position[dim_x];
+        def->position[dim_x]= temp[dim_x];
+        temp[dim_y] = atk->position[dim_y];
+        atk->position[dim_y] = def->position[dim_y];
+        def->position[dim_y]= temp[dim_y];
+    }
+    if(def->name == "SPONGEBOB"){
+        if(!def->alive){
+
+            io_queue_message("You win");
+            d->num_monsters = -1; //should terminate the game
+        }
+    }
+}
+
+void do_combat1(dungeon *d, character *atk, character *def)
+{
+
+//    int damage = d->PC->damage->roll();
+//    for(int z = 0; z< 12; z++){
+//        if(d->equipped !=NULL){
+//            damage += d->equipped[z]->roll_dice();
+//        }
+//    }
   int can_see_atk, can_see_def;
   const char *organs[] = {
     "liver",                   /*  0 */

@@ -81,12 +81,19 @@ void takeoff_object(dungeon *d,  int equip_index){
                 }
             }
             d->equipped[equip_index] = NULL;
+            d->PC->speed -= d->carry[0]->get_speed();
+
+            if(d->PC->speed <= 0){
+                d->PC->speed = 1;
+            }
+
             filled = true;
         }
     }
     if(filled == false){
         d->objmap[d->PC->position[dim_y]][d->PC->position[dim_x]]= d->equipped[equip_index];
         d->equipped[equip_index] = NULL;
+        d->PC->speed -= d->carry[0]->get_speed();
     }
 
 }
@@ -114,6 +121,11 @@ bool wear_object(dungeon *d,  int carry_index){
             }
             if(open){
                 d->equipped[i]=d->carry[carry_index];
+                d->PC->speed += d->carry[0]->get_speed();
+                if(d->PC->speed <= 0){
+                    d->PC->speed = 1;
+                }
+
                 d->type_of_slot[i] = (object_type)d->carry[carry_index]->get_type();
                 d->carry[carry_index]=NULL;
                 i = 12;
