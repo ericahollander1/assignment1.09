@@ -69,6 +69,110 @@ void do_combat(dungeon *d, character *atk, character *def)
             io_queue_message("You were killed by %s%s!", is_unique(def) ? "" : "the ", def->name);
         }
         else{
+
+            if ((part = rand() % (sizeof (organs) / sizeof (organs[0]))) < 26) {
+                io_queue_message("As %s%s eats your %s,  with %d hp", is_unique(atk) ? "" : "the ",
+                                 atk->name, organs[rand() % (sizeof (organs) /
+                                                             sizeof (organs[0]))], d->PC->hp);
+                io_queue_message("   ...you wonder if there is an afterlife.  with %d hp", d->PC->hp);
+                /* Queue an empty message, otherwise the game will not pause for *
+                 * player to see above.                                          */
+                io_queue_message("");
+            } else {
+                io_queue_message("Your last thoughts fade away as "
+                                 "%s%s eats your %s...  with %d hp",
+                                 is_unique(atk) ? "" : "the ",
+                                 atk->name, organs[part], d->PC->hp);
+                io_queue_message("");
+            }
+        }
+    }
+    //}
+
+
+    if (atk == d->PC) { //if attacker is the pc and defense is npc
+        //roll die and take damage hitpoints from monster
+            int damage = atk->damage->roll();
+
+          def->hp-=damage;
+        io_queue_message("You smite %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
+          if(def->hp <= 0){
+              def->alive = 0;
+              atk->kills[kill_direct]++;
+              atk->kills[kill_avenged] += (def->kills[kill_direct] +
+                                           def->kills[kill_avenged]);
+              d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
+          }
+    }
+
+    if (atk != d->PC && def != d->PC) { //if fued between two monsters
+        temp[dim_x] = atk->position[dim_x];
+        atk->position[dim_x] = def->position[dim_x];
+        def->position[dim_x]= temp[dim_x];
+        temp[dim_y] = atk->position[dim_y];
+        atk->position[dim_y] = def->position[dim_y];
+        def->position[dim_y]= temp[dim_y];
+    }
+    if(def->get_symbol() == 'S'){
+        if(!def->alive){
+            io_queue_message("You win");
+            d->num_monsters = -1; //should terminate the game
+        }
+    }
+}
+void do_combat2(dungeon *d, character *atk, character *def)
+{
+    //int can_see_atk, can_see_def;
+    const char *organs[] = {
+            "liver",                   /*  0 */
+            "pancreas",                /*  1 */
+            "heart",                   /*  2 */
+            "eye",                     /*  3 */
+            "arm",                     /*  4 */
+            "leg",                     /*  5 */
+            "intestines",              /*  6 */
+            "gall bladder",            /*  7 */
+            "lungs",                   /*  8 */
+            "hand",                    /*  9 */
+            "foot",                    /* 10 */
+            "spinal cord",             /* 11 */
+            "pituitary gland",         /* 12 */
+            "thyroid",                 /* 13 */
+            "tongue",                  /* 14 */
+            "bladder",                 /* 15 */
+            "diaphram",                /* 16 */
+            "stomach",                 /* 17 */
+            "pharynx",                 /* 18 */
+            "esophagus",               /* 19 */
+            "trachea",                 /* 20 */
+            "urethra",                 /* 21 */
+            "spleen",                  /* 22 */
+            "ganglia",                 /* 23 */
+            "ear",                     /* 24 */
+            "subcutaneous tissue",      /* 25 */
+            "cerebellum",              /* 26 */ /* Brain parts begin here */
+            "hippocampus",             /* 27 */
+            "frontal lobe",            /* 28 */
+            "brain",                   /* 29 */
+    };
+    int part;
+    pair_t temp;
+
+//    if (def->alive) {
+    //def->alive = 0;
+    //charpair(def->position) = NULL;
+
+    if (def == d->PC && atk != d->PC) { //if defense is the pc and attack is npc
+        //roll die and take damage hitpoints from monster
+        int damage = d->PC->damage->roll();
+        def->hp-=damage;
+
+        if(def->hp <= 0){
+            d->PC->alive = 0;
+            //d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
+            io_queue_message("You were killed by %s%s!", is_unique(def) ? "" : "the ", def->name);
+        }
+        else{
             io_queue_message("You smite %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
         }
     }
@@ -91,16 +195,16 @@ void do_combat(dungeon *d, character *atk, character *def)
                              atk->name, organs[part], d->PC->hp);
             io_queue_message("");
         }//roll die and take damage hitpoints from monster
-            int damage = atk->damage->roll();
+        int damage = atk->damage->roll();
 
-          def->hp-=damage;
-          if(def->hp <= 0){
-              def->alive = 0;
-              atk->kills[kill_direct]++;
-              atk->kills[kill_avenged] += (def->kills[kill_direct] +
-                                           def->kills[kill_avenged]);
-              d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
-          }
+        def->hp-=damage;
+        if(def->hp <= 0){
+            def->alive = 0;
+            atk->kills[kill_direct]++;
+            atk->kills[kill_avenged] += (def->kills[kill_direct] +
+                                         def->kills[kill_avenged]);
+            d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
+        }
     }
 
     if (atk != d->PC && def != d->PC) { //if fued between two monsters
