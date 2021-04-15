@@ -910,7 +910,7 @@ static void io_scroll_monster_list(char (*s)[60], uint32_t count)
         offset++;
       }
       break;
-    case 'E':
+    case 27:
       return;
     }
 
@@ -1070,7 +1070,7 @@ void io_display_carry(dungeon *d) {
             case '9':
                 io_display_carry_description(d, 9);
                 break;
-            case '27':
+            case 'E':
                 escape = 0;
                 break;
         }
