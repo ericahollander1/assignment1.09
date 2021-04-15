@@ -60,9 +60,12 @@ static uint32_t is_open_space(dungeon *d, int16_t y, int16_t x)
 }
 
 void pickup_object(dungeon *d, character *PC,  pair_t new_position){
+    bool filled = false;
     for (int i = 0; i < 10; i++){
-        if(d->carry[i] == NULL){
+        if(d->carry[i] == NULL && !filled){
             d->carry[i] = d->objmap[new_position[dim_y]][new_position[dim_x]];
+            d->objmap[new_position[dim_y]][new_position[dim_x]] = NULL;
+            filled = true;
         }
     }
 }
