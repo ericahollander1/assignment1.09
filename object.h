@@ -19,6 +19,7 @@ class object {
   object *next;
   object_description &od;
  public:
+
   object(object_description &o, pair_t p, object *next);
   ~object();
   inline int32_t get_damage_base() const
@@ -39,6 +40,7 @@ class object {
   int32_t get_speed();
   int32_t roll_dice();
   int32_t get_type();
+  std::string get_description(){return description;}
   bool have_seen() { return seen; }
   void has_been_seen() { seen = true; }
   int16_t *get_position() { return position; }
