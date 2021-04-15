@@ -1060,6 +1060,7 @@ void io_display_carry_description(dungeon *d, int index){
             refresh();
         }
     }
+    refresh();
     io_display(d);
     //io_display_carry(d);
 
@@ -1083,33 +1084,43 @@ void io_display_carry(dungeon *d) {
         switch (key = getch()) {
             case '0':
                 io_display_carry_description(d, 0);
+                io_display(d);
                 break;
             case '1':
                 io_display_carry_description(d, 1);
+                io_display(d);
                 break;
             case '2':
                 io_display_carry_description(d, 2);
+                io_display(d);
                 break;
             case '3':
                 io_display_carry_description(d, 3);
+                io_display(d);
                 break;
             case '4':
                 io_display_carry_description(d, 4);
+                io_display(d);
                 break;
             case '5':
                 io_display_carry_description(d, 5);
+                io_display(d);
                 break;
             case '6':
                 io_display_carry_description(d, 6);
+                io_display(d);
                 break;
             case '7':
                 io_display_carry_description(d, 7);
+                io_display(d);
                 break;
             case '8':
                 io_display_carry_description(d, 8);
+                io_display(d);
                 break;
             case '9':
                 io_display_carry_description(d, 9);
+                io_display(d);
                 break;
             case 27:
                 escape = 0;
