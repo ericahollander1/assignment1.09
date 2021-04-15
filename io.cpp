@@ -1056,7 +1056,7 @@ void io_display_carry_description(dungeon *d, int index){
             refresh();
         }
         else{
-            mvprintw(1, 0, "No object in carry slot");
+            mvprintw(0, 0, "No object in carry slot");
             refresh();
         }
     }
@@ -1071,24 +1071,27 @@ void io_display_carry(dungeon *d){
     io_display(d);
     for (int i = 0; i < 10; i++) {
         if (d->carry[i] != NULL) {
-            mvprintw(i, 6, "%d)   %s", i, d->carry[i]->get_name());
+            mvprintw(i+1, 6, "%d)   %s", i, d->carry[i]->get_name());
         }
         else{
-            mvprintw(i, 6, "%d)", i);
+            mvprintw(i+1, 6, "%d)", i);
         }
     }
 
     do {
         switch (key = getch()) {
             case 'd':
+                mvprintw(0, 6, "input 0-9 to drop");
                 io_display_drop(d);
                 io_display(d);
                 break;
             case 'w':
+                mvprintw(0, 6, "input 0-9 to wear");
                 io_inspect_carry(d);
                 io_display(d);
                 break;
-            case 'i':
+            case 'I':
+                mvprintw(0, 6, "choose 0-9 to inspect");
                 io_inspect_carry(d);
                 io_display(d);
                 break;
@@ -1109,44 +1112,94 @@ void io_display_drop(dungeon *d){
     do {
         switch (key = getch()) {
             case '0':
-                drop_object(d, d->PC, 0);
-                io_display(d);
+                if(d->carry[0]!=NULL){
+                    drop_object(d, d->PC, 0);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case '1':
-                drop_object(d, d->PC, 1);
-                io_display(d);
+                if(d->carry[1]!=NULL) {
+                    drop_object(d, d->PC, 1);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case '2':
-                drop_object(d, d->PC, 2);
-                io_display(d);
+                if(d->carry[2]!=NULL) {
+                    drop_object(d, d->PC, 2);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case '3':
-                drop_object(d, d->PC, 3);
-                io_display(d);
+                if(d->carry[3]!=NULL) {
+                    drop_object(d, d->PC, 3);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case '4':
-                drop_object(d, d->PC, 4);
-                io_display(d);
+                if(d->carry[4]!=NULL) {
+                    drop_object(d, d->PC, 4);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case '5':
-                drop_object(d, d->PC, 5);
-                io_display(d);
+                if(d->carry[5]!=NULL) {
+                    drop_object(d, d->PC, 5);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case '6':
-                drop_object(d, d->PC, 6);
-                io_display(d);
+                if(d->carry[6]!=NULL) {
+                    drop_object(d, d->PC, 6);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case '7':
-                drop_object(d, d->PC, 7);
-                io_display(d);
+                if(d->carry[7]!=NULL) {
+                    drop_object(d, d->PC, 7);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case '8':
-                drop_object(d, d->PC, 8);
-                io_display(d);
+                if(d->carry[8]!=NULL) {
+                    drop_object(d, d->PC, 8);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case '9':
-                drop_object(d, d->PC, 9);
-                io_display(d);
+                if(d->carry[9]!=NULL) {
+                    drop_object(d, d->PC, 9);
+                    io_display(d);
+                }
+                else{
+                    mvprintw(0, 6, "No object to drop please pick another or press escape");
+                }
                 break;
             case 27:
                 escape = 0;
