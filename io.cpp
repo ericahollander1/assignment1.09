@@ -1508,7 +1508,7 @@ void io_display_equipment(dungeon *d){
                 break;
             case 'x':
                 mvprintw(0, 6, "choose a-l to expunge from the game");
-                io_expunge(d);
+                io_expunge_equipment(d);
                 io_display(d);
                 break;
             case 27:
