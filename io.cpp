@@ -1495,7 +1495,7 @@ void io_display_equipment(dungeon *d){
             mvprintw(i+1, 6, "%c)   %s", hardness_to_char[i+10], d->equipped[i]->get_name());
         }
         else{
-            mvprintw(i+1, 6, "%d)", hardness_to_char[i+10]);
+            mvprintw(i+1, 6, "%c)", hardness_to_char[i+10]);
         }
     }
 
