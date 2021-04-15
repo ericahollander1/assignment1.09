@@ -60,17 +60,10 @@ void do_combat(dungeon *d, character *atk, character *def)
 
     if (def == d->PC && atk != d->PC) { //if defense is the pc and attack is npc
         //roll die and take damage hitpoints from monster
-        int damage = d->PC->damage->roll();
-        def->hp-=damage;
+        int damage = atk->damage->roll();
+        d->PC-=damage;
 
-        if(def->hp <= 0){
-            d->PC->alive = 0;
-            //d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
-            io_queue_message("You were killed by %s%s!", is_unique(def) ? "" : "the ", def->name);
-            io_queue_message("");
-        }
-        else{
-
+        if(d->PC->hp >= 0){
             if ((part = rand() % (sizeof (organs) / sizeof (organs[0]))) < 26) {
                 io_queue_message("As %s%s eats your %s,  with %d hp", is_unique(atk) ? "" : "the ",
                                  atk->name, organs[rand() % (sizeof (organs) /
@@ -87,23 +80,33 @@ void do_combat(dungeon *d, character *atk, character *def)
                 io_queue_message("");
             }
         }
+        else{
+            d->PC->alive = 0;
+            //d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
+            io_queue_message("You were killed by %s%s!", is_unique(def) ? "" : "the ", def->name);
+            io_queue_message("");
+        }
     }
     //}
 
 
-    if (atk == d->PC) { //if attacker is the pc and defense is npc
+    if (atk == d->PC && def != d->PC) { //if attacker is the pc and defense is npc
         //roll die and take damage hitpoints from monster
-            int damage = atk->damage->roll();
-
+        int damage = d->PC->damage->roll();
           def->hp-=damage;
-        io_queue_message("You smite %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
-        io_queue_message("");
+
           if(def->hp <= 0){
+              io_queue_message("You killed %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
+              io_queue_message("");
               def->alive = 0;
               atk->kills[kill_direct]++;
               atk->kills[kill_avenged] += (def->kills[kill_direct] +
                                            def->kills[kill_avenged]);
               d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
+          }
+          else{
+              io_queue_message("You smite %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
+              io_queue_message("");
           }
     }
 
@@ -115,6 +118,7 @@ void do_combat(dungeon *d, character *atk, character *def)
         atk->position[dim_y] = def->position[dim_y];
         def->position[dim_y]= temp[dim_y];
     }
+
     if(def->get_symbol() == 'S'){
         if(!def->alive){
             io_queue_message("You win");
