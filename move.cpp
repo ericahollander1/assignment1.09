@@ -67,6 +67,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             d->PC->alive = 0;
             //d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
             io_queue_message("You were killed by %s%s!", is_unique(def) ? "" : "the ", def->name);
+            io_queue_message("");
         }
         else{
 
@@ -96,6 +97,7 @@ void do_combat(dungeon *d, character *atk, character *def)
 
           def->hp-=damage;
         io_queue_message("You smite %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
+        io_queue_message("");
           if(def->hp <= 0){
               def->alive = 0;
               atk->kills[kill_direct]++;
@@ -116,6 +118,7 @@ void do_combat(dungeon *d, character *atk, character *def)
     if(def->get_symbol() == 'S'){
         if(!def->alive){
             io_queue_message("You win");
+            io_queue_message("");
             d->num_monsters = -1; //should terminate the game
         }
     }
