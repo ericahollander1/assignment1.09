@@ -1210,12 +1210,19 @@ void io_expunge_equipment(dungeon *d) {
 void io_display_wear(dungeon *d){
     int key;
     int escape = 1;
+    int item_worn = false;
     do {
         switch (key = getch()) {
             case '0':
                 if(d->carry[0]!=NULL){
-                    wear_object(d, 0);
+                    item_worn = wear_object(d, 0);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
@@ -1223,17 +1230,30 @@ void io_display_wear(dungeon *d){
                 break;
             case '1':
                 if(d->carry[1]!=NULL) {
-                    wear_object(d, 1);
+                    item_worn = wear_object(d, 1);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
                 }
+
                 break;
             case '2':
                 if(d->carry[2]!=NULL) {
-                    wear_object(d, 2);
+                    item_worn = wear_object(d, 2);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
@@ -1241,8 +1261,14 @@ void io_display_wear(dungeon *d){
                 break;
             case '3':
                 if(d->carry[3]!=NULL) {
-                    wear_object(d, 3);
+                    item_worn = wear_object(d, 3);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
@@ -1250,8 +1276,14 @@ void io_display_wear(dungeon *d){
                 break;
             case '4':
                 if(d->carry[4]!=NULL) {
-                    wear_object(d, 4);
+                    item_worn = wear_object(d, 4);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
@@ -1259,8 +1291,14 @@ void io_display_wear(dungeon *d){
                 break;
             case '5':
                 if(d->carry[5]!=NULL) {
-                    wear_object(d, 5);
+                    item_worn = wear_object(d, 5);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
@@ -1268,8 +1306,14 @@ void io_display_wear(dungeon *d){
                 break;
             case '6':
                 if(d->carry[6]!=NULL) {
-                    wear_object(d, 6);
+                    item_worn = wear_object(d, 6);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
@@ -1277,8 +1321,14 @@ void io_display_wear(dungeon *d){
                 break;
             case '7':
                 if(d->carry[7]!=NULL) {
-                    wear_object(d, 7);
+                    item_worn = wear_object(d, 7);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
@@ -1286,8 +1336,14 @@ void io_display_wear(dungeon *d){
                 break;
             case '8':
                 if(d->carry[8]!=NULL) {
-                    wear_object(d, 8);
+                    item_worn = wear_object(d, 8);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
@@ -1295,8 +1351,14 @@ void io_display_wear(dungeon *d){
                 break;
             case '9':
                 if(d->carry[9]!=NULL) {
-                    wear_object(d, 9);
+                    item_worn = wear_object(d, 9);
                     io_display(d);
+                    if(item_worn){
+                        mvprintw(0, 6, "Object added to equipment press escape");
+                    }
+                    else{
+                        mvprintw(0, 6, "Object of this type already worn");
+                    }
                 }
                 else{
                     mvprintw(0, 6, "No object to drop please pick another or press escape");
