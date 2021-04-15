@@ -1159,6 +1159,7 @@ void io_display_drop(dungeon *d){
 }
 void io_inspect_carry(dungeon *d) {
     int key;
+    int escape = 1;
 
     do {
         switch (key = getch()) {
@@ -1293,11 +1294,7 @@ void io_handle_input(dungeon *d)
                 fail_code = move_pc(d, '<');
                 break;
             case 'i':
-                io_display_carry(d, 0);
-                fail_code = 1;
-                break;
-            case 'd':
-                io_display_carry(d, 1);
+                io_display_carry(d);
                 fail_code = 1;
                 break;
             case 'Q':
