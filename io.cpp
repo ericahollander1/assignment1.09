@@ -1051,7 +1051,7 @@ void io_display_carry_description(dungeon *d, int index){
         escape = 1;
         if(d->carry[index]!=NULL){
             mvprintw(0, 6,"%s (sp: %d, dmg: %d+%dd%d)", d->carry[index]->get_name(), d->carry[index]->get_speed(), d->carry[index]->get_damage_base(), d->carry[index]->get_damage_number(), d->carry[index]->get_damage_sides());
-            mvprintw(1, 6, "description");
+            mvprintw(1, 6, "%s", ((object *)d->carry[index])->get_description().c_str());
             mvprintw(2, 6, "hit any key to continue");
             refresh();
         }
@@ -1061,6 +1061,7 @@ void io_display_carry_description(dungeon *d, int index){
         }
     }
     io_display(d);
+    io_display_carry(d);
 
 }
 

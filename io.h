@@ -8,8 +8,7 @@ void io_reset_terminal(void);
 void io_display(dungeon *d);
 void io_handle_input(dungeon *d);
 void io_queue_message(const char *format, ...);
-void io_monster_desc(dungeon *d);
-void io_display_carry_description(dungeon *d, int index);
 void io_display_carry(dungeon *d);
+void io_display_carry_description(dungeon *d, int index);
 
 #endif
