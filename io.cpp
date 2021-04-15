@@ -1700,6 +1700,10 @@ void io_handle_input(dungeon *d)
                 io_display_carry(d);
                 fail_code = 1;
                 break;
+            case 'E':
+                io_display_equipment(d);
+                fail_code = 1;
+                break;
             case 'Q':
                 d->quit = 1;
                 fail_code = 0;
