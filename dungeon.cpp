@@ -70,38 +70,38 @@ void pickup_object(dungeon *d, character *PC,  pair_t new_position){
     }
 }
 bool wear_object(dungeon *d,  int carry_index){
-    bool filled = false;
-//    bool filled = false, open = true, ring = false, correct = false;
-//
-//    for (int i = 0; i < 12; i++){
-//        if(d->equipped[i] == NULL && !filled){
-//            for(int j=0; j< 12; i++){
-//                if(d->carry[carry_index]->get_type()==d->type_of_slot[j]){
-//                    correct = true;
-//                    if(d->carry[carry_index]->get_type() != objtype_RING){
-//                        open = false;
-//
-//                    }
-//                    else{
-//                        if(ring){
-//                            open = false;
-//                        }
-//                        else{
-//                            ring = true;
-//                        }
-//                    }
-//                }
-//
-//            }
-//            if(correct && open){
-//                d->equipped[i]=d->carry[carry_index];
-//                d->type_of_slot[i] = (object_type)d->carry[carry_index]->get_type();
-//                d->carry[carry_index]=NULL;
-//                filled = true;
-//            }
-//
-//        }
-//    }
+  
+    bool filled = false, open = true, ring = false, correct = false;
+
+    for (int i = 0; i < 12; i++){
+        if(d->equipped[i] == NULL && !filled){
+            for(int j=0; j< 12; j++){
+                if(d->carry[carry_index]->get_type()==d->type_of_slot[j]){
+                    correct = true;
+                    if(d->carry[carry_index]->get_type() != objtype_RING){
+                        open = false;
+
+                    }
+                    else{
+                        if(ring){
+                            open = false;
+                        }
+                        else{
+                            ring = true;
+                        }
+                    }
+                }
+
+            }
+            if(correct && open){
+                d->equipped[i]=d->carry[carry_index];
+                d->type_of_slot[i] = (object_type)d->carry[carry_index]->get_type();
+                d->carry[carry_index]=NULL;
+                filled = true;
+            }
+
+        }
+    }
     return filled;
 }
 
