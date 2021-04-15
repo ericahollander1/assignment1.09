@@ -1525,10 +1525,12 @@ void io_display_equipment(dungeon *d){
 void io_display_drop(dungeon *d){
     int key;
     int escape = 1;
+    //io_queue_message("You smite %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
     do {
         switch (key = getch()) {
             case '0':
                 if(d->carry[0]!=NULL){
+                    mvprintw(0, 6, "Dropped_item: %s", d->carry[0]->get_name());
                     drop_object(d, d->PC, 0);
                     io_display(d);
                 }
