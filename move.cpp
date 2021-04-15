@@ -107,9 +107,8 @@ void do_combat(dungeon *d, character *atk, character *def)
         atk->position[dim_y] = def->position[dim_y];
         def->position[dim_y]= temp[dim_y];
     }
-    if(def->name == "SPONGEBOB"){
+    if(def->get_symbol() == 'S'){
         if(!def->alive){
-
             io_queue_message("You win");
             d->num_monsters = -1; //should terminate the game
         }
