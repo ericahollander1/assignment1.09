@@ -1117,6 +1117,8 @@ void io_display_carry(dungeon *d) {
         }
 
     }while (escape);
+    refresh();
+    io_display(d);
 }
 
 
