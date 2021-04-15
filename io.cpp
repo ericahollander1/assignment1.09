@@ -1013,7 +1013,7 @@ void io_handle_input(dungeon *d)
     case '<':
       fail_code = move_pc(d, '<');
       break;
-    case 'I':
+    case 'i':
         fail_code = 1;
         io_display_carry(d);
       break;
@@ -1043,6 +1043,7 @@ void io_handle_input(dungeon *d)
       fail_code = 1;
       break;
     case 'L':
+       io_monster_desc(d);
       fail_code = 1;
       break;
     case 'g':
