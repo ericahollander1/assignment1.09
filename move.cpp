@@ -94,6 +94,7 @@ void do_combat(dungeon *d, character *atk, character *def)
           def->hp-=damage;
           if(def->hp <= 0){
               def->alive = 0;
+              d->character_map[def->position[dim_y]][def->position[dim_x]] = NULL;
               atk->kills[kill_direct]++;
               atk->kills[kill_avenged] += (def->kills[kill_direct] +
                                            def->kills[kill_avenged]);
