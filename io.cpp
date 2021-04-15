@@ -1487,7 +1487,7 @@ void io_display_carry(dungeon *d){
 void io_display_equipment(dungeon *d){
     int key;
     int escape=1;
-    
+
     io_display(d);
     mvprintw(0, 6, "Equipment please choose to either takeoff(t) or expunge item(x) or ESC");
     for (int i = 0; i < 12; i++) {
@@ -1495,7 +1495,7 @@ void io_display_equipment(dungeon *d){
             mvprintw(i+1, 6, "%c)   %s", hardness_to_char[i+10], d->equipped[i]->get_name());
         }
         else{
-            mvprintw(i+1, 6, "%d)", i);
+            mvprintw(i+1, 6, "%d)", hardness_to_char[i+10]);
         }
     }
 
