@@ -1061,10 +1061,10 @@ void io_display_carry(dungeon *d) {
     io_display(d);
     for (int i = 0; i < 10; i++) {
         if (d->carry[i] != NULL) {
-            mvprintw(i, 6, "%d)   %s", i, d->carry[i]->get_type());
-
+            mvprintw(i, 6, "%d)   %s", i, d->carry[i]->get_name());
         }
     }
+    
     refresh();
     do {
         switch (key = getch()) {
