@@ -910,7 +910,7 @@ static void io_scroll_monster_list(char (*s)[60], uint32_t count)
         offset++;
       }
       break;
-    case 27:
+    case 'E':
       return;
     }
 
