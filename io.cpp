@@ -1065,6 +1065,73 @@ void io_display_carry_description(dungeon *d, int index){
     //io_display_carry(d);
 
 }
+void io_expunge(dungeon *d) {
+    int key;
+    int escape = 1;
+
+    do {
+        switch (key = getch()) {
+            case '0':
+                delete(d->carry[0]);
+                d->carry[0] = NULL;
+                io_display(d);
+                break;
+            case '1':
+                delete(d->carry[1]);
+                d->carry[1] = NULL;
+                io_display(d);
+                io_display(d);
+                break;
+            case '2':
+                delete(d->carry[2]);
+                d->carry[2] = NULL;
+                io_display(d);
+                break;
+            case '3':
+                delete(d->carry[3]);
+                d->carry[3] = NULL;
+                io_display(d);
+                break;
+            case '4':
+                delete(d->carry[4]);
+                d->carry[4] = NULL;
+                io_display(d);
+                break;
+            case '5':
+                delete(d->carry[5]);
+                d->carry[5] = NULL;
+                io_display(d);
+                break;
+            case '6':
+                delete(d->carry[6]);
+                d->carry[6] = NULL;
+                io_display(d);
+                break;
+            case '7':
+                delete(d->carry[7]);
+                d->carry[7] = NULL;
+                io_display(d);
+                break;
+            case '8':
+                delete(d->carry[8]);
+                d->carry[8] = NULL;
+                io_display(d);
+                break;
+            case '9':
+                delete(d->carry[9]);
+                d->carry[9] = NULL;
+                io_display(d);
+                break;
+            case 27:
+                escape = 0;
+                break;
+        }
+
+    }while (escape);
+    refresh();
+    io_display(d);
+}
+
 void io_display_carry(dungeon *d){
     int key;
     int escape=1;
@@ -1093,6 +1160,11 @@ void io_display_carry(dungeon *d){
             case 'I':
                 mvprintw(0, 6, "choose 0-9 to inspect");
                 io_inspect_carry(d);
+                io_display(d);
+                break;
+            case 'X':
+                mvprintw(0, 6, "choose 0-9 to expunge from the game");
+                io_expunge(d);
                 io_display(d);
                 break;
             case 27:
