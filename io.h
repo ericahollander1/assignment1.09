@@ -12,5 +12,6 @@ void io_display_carry(dungeon *d);
 void io_inspect_carry(dungeon *d);
 void io_display_drop(dungeon *d);
 void io_display_carry_description(dungeon *d, int index);
+void io_takeoff_equipment(dungeon *d);
 
 #endif

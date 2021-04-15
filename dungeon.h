@@ -120,5 +120,6 @@ void pc_see_object(character *the_pc, object *o);
 void pickup_object(dungeon *d, character *PC,  pair_t new_position);
 void drop_object(dungeon *d, character *PC, int dropped_index);
 bool wear_object(dungeon *d,  int carry_index);
+void takeoff_object(dungeon *d,  int equip_index);
 
 #endif

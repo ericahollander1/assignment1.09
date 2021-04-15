@@ -1131,6 +1131,69 @@ void io_expunge(dungeon *d) {
     refresh();
     io_display(d);
 }
+void io_takeoff_equipment(dungeon *d) {
+    int key;
+    int escape = 1;
+
+    do {
+        switch (key = getch()) {
+            case 'a':
+                takeoff_object(d, 0);
+                io_display(d);
+                break;
+            case 'b':
+                takeoff_object(d, 1);
+                io_display(d);
+                break;
+            case 'c':
+                takeoff_object(d, 2);
+                io_display(d);
+                break;
+            case 'd':
+                takeoff_object(d, 3);
+                io_display(d);
+                break;
+            case 'e':
+                takeoff_object(d, 4);
+                io_display(d);
+                break;
+            case 'f':
+                takeoff_object(d, 5);
+                io_display(d);
+                break;
+            case 'g':
+                takeoff_object(d, 6);
+                io_display(d);
+                break;
+            case 'h':
+                takeoff_object(d, 7);
+                io_display(d);
+                break;
+            case 'i':
+                takeoff_object(d, 8);
+                io_display(d);
+                break;
+            case 'j':
+                takeoff_object(d, 9);
+                io_display(d);
+                break;
+            case 'k':
+                takeoff_object(d, 10);
+                io_display(d);
+                break;
+            case 'l':
+                takeoff_object(d, 11);
+                io_display(d);
+                break;
+            case 27:
+                escape = 0;
+                break;
+        }
+
+    }while (escape);
+    refresh();
+    io_display(d);
+}
 void io_expunge_equipment(dungeon *d) {
     int key;
     int escape = 1;
@@ -1207,6 +1270,7 @@ void io_expunge_equipment(dungeon *d) {
     refresh();
     io_display(d);
 }
+
 void io_display_wear(dungeon *d){
     int key;
     int escape = 1;
@@ -1437,7 +1501,7 @@ void io_display_equipment(dungeon *d){
         switch (key = getch()) {
             case 't':
                 mvprintw(0, 6, "input a-l to take off");
-                io_inspect_carry(d);
+                io_takeoff_equipment(d);
                 io_display(d);
                 break;
             case 'x':

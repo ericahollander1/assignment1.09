@@ -69,6 +69,27 @@ void pickup_object(dungeon *d, character *PC,  pair_t new_position){
         }
     }
 }
+void takeoff_object(dungeon *d,  int equip_index){
+   bool filled=false;
+    for(int i = 0; i < 10; i++){
+        if(d->carry[i] == NULL && !filled){
+            d->carry[i] = d->equipped[equip_index];
+
+            for(int j = 0; j< 12; j++){
+                if(d->equipped[equip_index]->get_type()==d->type_of_slot[j]){
+                    d->type_of_slot[j]= objtype_no_type;
+                }
+            }
+            d->equipped[equip_index] = NULL;
+            filled = true;
+        }
+    }
+    if(filled == false){
+        d->objmap[d->PC->position[dim_y]][d->PC->position[dim_x]]= d->equipped[equip_index];
+        d->equipped[equip_index] = NULL;
+    }
+
+}
 bool wear_object(dungeon *d,  int carry_index){
 
     bool filled = false, open = true, ring = false;
