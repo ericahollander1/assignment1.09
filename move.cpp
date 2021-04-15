@@ -69,7 +69,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             io_queue_message("You were killed by %s%s!", is_unique(def) ? "" : "the ", def->name);
         }
         else{
-            io_queue_message("You smite %s%s!  with %d hp", is_unique(def) ? "" : "the", def->name, def->hp);
+            io_queue_message("You smite %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
         }
     }
     //}
@@ -225,7 +225,7 @@ void do_combat1(dungeon *d, character *atk, character *def)
 void move_character(dungeon *d, character *c, pair_t next)
 {
   if (charpair(next) &&
-      ((next[dim_y] != c->position[dim_y]) ||
+      ((next[dim_y] != c->position[dim_y]) &&
        (next[dim_x] != c->position[dim_x]))) {
     do_combat(d, c, charpair(next));
   } else {
