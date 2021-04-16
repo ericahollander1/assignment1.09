@@ -59,7 +59,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             if(dam == 0){
                 dam = 1;
             }
-            io_queue_message("%s %s %s your %s for %d damage", is_unique(atk) ? "" : "the ", atk->name, "stabs", organs[rand() % (sizeof (organs) / sizeof (organs[0]))], dam);
+            io_queue_message("The %s %s your %s for %d damage", atk->name, "stabs", organs[rand() % (sizeof (organs) / sizeof (organs[0]))], dam);
         }
         else{
             dam = atk->damage->roll();
