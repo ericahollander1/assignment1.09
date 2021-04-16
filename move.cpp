@@ -436,6 +436,7 @@ void move_character(dungeon *d, character *c, pair_t next)
                 pc_reset_visibility(d->PC);
                 pc_observe_terrain(d->PC, d);
             }
+            pc_reset_visibility(d->PC);
             do_combat(d, c, charpair(next));
         }
 
@@ -452,7 +453,10 @@ void move_character(dungeon *d, character *c, pair_t next)
 
     else {
         /* No character in new position. */
-
+        if(c== d->PC){
+            pc_reset_visibility(d->PC);
+            pc_observe_terrain(d->PC, d);
+        }
         d->character_map[c->position[dim_y]][c->position[dim_x]] = NULL;
         c->position[dim_y] = next[dim_y];
         c->position[dim_x] = next[dim_x];
