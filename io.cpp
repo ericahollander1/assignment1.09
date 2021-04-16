@@ -1299,10 +1299,11 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 1);
                     io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
-                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
+                        mvprintw(0, 6, "Object of this type already worn");
+                       // mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
                 else{
@@ -1315,10 +1316,11 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 2);
                     io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
-                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
+                        mvprintw(0, 6, "Object of this type already worn");
+                        // mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
                 else{
@@ -1330,10 +1332,11 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 3);
                     io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
-                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
+                        mvprintw(0, 6, "Object of this type already worn");
+                        // mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
                 else{
@@ -1345,10 +1348,11 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 4);
                     io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
-                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
+                        mvprintw(0, 6, "Object of this type already worn");
+                        // mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
                 else{
@@ -1360,10 +1364,11 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 5);
                     io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
-                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
+                        mvprintw(0, 6, "Object of this type already worn");
+                        // mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
                 else{
@@ -1375,10 +1380,11 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 6);
                     io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
-                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
+                        mvprintw(0, 6, "Object of this type already worn");
+                        // mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
                 else{
@@ -1390,10 +1396,11 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 7);
                     io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
-                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
+                        mvprintw(0, 6, "Object of this type already worn");
+                        // mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
                 else{
@@ -1405,10 +1412,11 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 8);
                     io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
-                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
+                        mvprintw(0, 6, "Object of this type already worn");
+                        // mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
                 else{
@@ -1420,10 +1428,11 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 9);
                     io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
-                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
+                        mvprintw(0, 6, "Object of this type already worn");
+                        // mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
                 else{
