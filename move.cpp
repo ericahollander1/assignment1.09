@@ -51,6 +51,97 @@ void do_combat(dungeon *d, character *atk, character *def)
             "frontal lobe",            /* 28 */
             "brain",                   /* 29 */
     };
+    int dam;
+    if(def->alive){
+        if(atk!=d->PC){
+            dam = atk->damage->roll();
+            io_queue_message("The %s %s your %s for %d damage", atk->name, "stabs", organs[rand() % (sizeof (organs) / sizeof (organs[0]))], dam);
+        }
+        else{
+            dam= atk->damage->roll();
+            for(int i = 0; i< 12; i++){
+                if(d->equipped[i] != NULL){
+                    dam+=d->equipped[i]->roll_dice();
+                }
+            }
+            io_queue_message("You hit the %s for %d damage", def->name, dam);
+
+        }
+        if(dam >= def->hp){
+            if(atk !=d->PC){
+                io_queue_message("You die. ");
+                io_queue_message("As %s%s eats your %s ", is_unique(atk) ? "" : "the ",
+                                 atk->name, organs[rand() % (sizeof (organs) /
+                                                             sizeof (organs[0]))], d->PC->hp);
+                io_queue_message("   ...you wonder if there is an afterlife.  with %d hp", d->PC->hp);
+                /* Queue an empty message, otherwise the game will not pause for *
+                 * player to see above.                                          */
+                io_queue_message("");
+            }
+            else{
+                io_queue_message("You killed %s%s", is_unique(def) ? "" : "the ", def->name);
+                if(has_characteristic(def, BOSS)){
+                    d->boss_dead = true;
+                }
+            }
+            def->hp = 0;
+            def->alive = 0;
+            character_increment_dkills(atk);
+            character_increment_ikills(atk, (character_get_dkills(def) + character_get_ikills(def)));
+            if(def != d->PC){
+                d->num_monsters--;
+            }
+            charpair(def->position) = NULL;
+        }
+        else{
+            def->hp -= dam;
+        }
+
+    }
+
+    if(def->get_symbol() == 'S'){
+        if(!def->alive){
+            io_queue_message("You win");
+            io_queue_message("");
+            d->num_monsters = -1; //should terminate the game
+        }
+    }
+}
+void fake_do_combat(dungeon *d, character *atk, character *def)
+{
+    //int can_see_atk, can_see_def;
+    const char *organs[] = {
+            "liver",                   /*  0 */
+            "pancreas",                /*  1 */
+            "heart",                   /*  2 */
+            "eye",                     /*  3 */
+            "arm",                     /*  4 */
+            "leg",                     /*  5 */
+            "intestines",              /*  6 */
+            "gall bladder",            /*  7 */
+            "lungs",                   /*  8 */
+            "hand",                    /*  9 */
+            "foot",                    /* 10 */
+            "spinal cord",             /* 11 */
+            "pituitary gland",         /* 12 */
+            "thyroid",                 /* 13 */
+            "tongue",                  /* 14 */
+            "bladder",                 /* 15 */
+            "diaphram",                /* 16 */
+            "stomach",                 /* 17 */
+            "pharynx",                 /* 18 */
+            "esophagus",               /* 19 */
+            "trachea",                 /* 20 */
+            "urethra",                 /* 21 */
+            "spleen",                  /* 22 */
+            "ganglia",                 /* 23 */
+            "ear",                     /* 24 */
+            "subcutaneous tissue",      /* 25 */
+            "cerebellum",              /* 26 */ /* Brain parts begin here */
+            "hippocampus",             /* 27 */
+            "frontal lobe",            /* 28 */
+            "brain",                   /* 29 */
+    };
     int part;
     pair_t temp;
 
@@ -61,7 +152,7 @@ void do_combat(dungeon *d, character *atk, character *def)
     if (def == d->PC && atk != d->PC) { //if defense is the pc and attack is npc
         //roll die and take damage hitpoints from monster
         int damage = atk->damage->roll();
-        d->PC-=damage;
+        d->PC->hp -= damage;
 
         if(d->PC->hp >= 0){
             if ((part = rand() % (sizeof (organs) / sizeof (organs[0]))) < 26) {
@@ -402,9 +493,9 @@ void do_moves(dungeon *d)
 
     npc_next_pos(d, (npc *) c, next);
     move_character(d, (npc *) c, next);
-    if(charpair(next)->alive){
+
           heap_insert(&d->events, update_event(d, e, 1000 / c->speed));
-    }
+    
   }
 
   io_display(d);
