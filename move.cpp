@@ -67,7 +67,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             io_queue_message("You hit the %s for %d damage", def->name, dam);
 
         }
-        if(dam >= def->hp){
+        if(dam >= (int)def->hp){
             if(atk !=d->PC){
                 io_queue_message("You die. ");
                 io_queue_message("As %s%s eats your %s ", is_unique(atk) ? "" : "the ",
@@ -495,7 +495,7 @@ void do_moves(dungeon *d)
     move_character(d, (npc *) c, next);
 
           heap_insert(&d->events, update_event(d, e, 1000 / c->speed));
-    
+
   }
 
   io_display(d);
