@@ -1283,9 +1283,10 @@ void io_display_wear(dungeon *d){
                     item_worn = wear_object(d, 0);
                     //io_display(d);
                     if(item_worn){
-                        mvprintw(0, 6, "Object of this type already worn");
+                        mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                     else{
+                        //mvprintw(0, 6, "Object of this type already worn");
                         mvprintw(0, 6, "Object added to equipment press escape twice to continue");
                     }
                 }
