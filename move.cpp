@@ -52,14 +52,20 @@ void do_combat(dungeon *d, character *atk, character *def)
             "frontal lobe",            /* 28 */
             "brain",                   /* 29 */
     };
-    int dam;
+    int dam = 0;
     if(def->alive && atk->alive){
         if(atk!=d->PC){
             dam = atk->damage->roll();
+            if(dam == 0){
+                dam = atk->damage->roll();
+            }
             io_queue_message("%s %s %s your %s for %d damage", is_unique(atk) ? "" : "the ", atk->name, "stabs", organs[rand() % (sizeof (organs) / sizeof (organs[0]))], dam);
         }
         else{
-            dam= atk->damage->roll();
+            dam = atk->damage->roll();
+            if(dam == 0){
+                dam = atk->damage->roll();
+            }
             for(int i = 0; i< 12; i++){
                 if(d->equipped[i] != NULL){
                     dam+=d->equipped[i]->roll_dice();
@@ -101,6 +107,7 @@ void do_combat(dungeon *d, character *atk, character *def)
     }
 
 }
+
 
 void move_character(dungeon *d, character *c, pair_t next)
 {
