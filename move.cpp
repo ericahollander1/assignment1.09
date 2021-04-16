@@ -100,7 +100,7 @@ void do_combat(dungeon *d, character *atk, character *def)
                 d->num_monsters--;
                 //character_die(def);
             }
-            charpair(def->position) = NULL;
+            //charpair(def->position) = NULL;
         }
         else{
             def->hp -= dam;
@@ -199,8 +199,10 @@ void do_moves(dungeon *d)
 
         npc_next_pos(d, (npc *) c, next);
         move_character(d, (npc *) c, next);
-
-        heap_insert(&d->events, update_event(d, e, 1000 / c->speed));
+        if(c->alive){
+            heap_insert(&d->events, update_event(d, e, 1000 / c->speed));
+        }
+        //heap_insert(&d->events, update_event(d, e, 1000 / c->speed));
 
     }
 
