@@ -1522,25 +1522,6 @@ void io_display_equipment(dungeon *d){
 
 
 }
-void io_display_hp(dungeon *d){
-    int key;
-    int escape = 1;
-    //io_queue_message("You smite %s%s!  with %d hp he is dead? %d", is_unique(def) ? "" : "the", def->name, def->hp, def->alive);
-    mvprintw(0, 6, "hp: %d", d->PC->hp);
-    io_display(d);
-    do {
-        switch (key = getch()) {
-            case 27:
-                escape = 0;
-                break;
-            default:
-                mvprintw(0, 6, "not a valid key: hp: %d", d->PC->hp);
-        }
-
-    }while (escape);
-    refresh();
-    io_display(d);
-}
 void io_display_drop(dungeon *d){
     int key;
     int escape = 1;
@@ -1549,7 +1530,7 @@ void io_display_drop(dungeon *d){
         switch (key = getch()) {
             case '0':
                 if(d->carry[0]!=NULL){
-                    mvprintw(0, 6, "Dropped_item: %s", d->carry[0]->get_name());
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[0]->get_name());
                     drop_object(d, d->PC, 0);
                     io_display(d);
                 }
@@ -1559,6 +1540,7 @@ void io_display_drop(dungeon *d){
                 break;
             case '1':
                 if(d->carry[1]!=NULL) {
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[1]->get_name());
                     drop_object(d, d->PC, 1);
                     io_display(d);
                 }
@@ -1568,6 +1550,7 @@ void io_display_drop(dungeon *d){
                 break;
             case '2':
                 if(d->carry[2]!=NULL) {
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[2]->get_name());
                     drop_object(d, d->PC, 2);
                     io_display(d);
                 }
@@ -1577,6 +1560,7 @@ void io_display_drop(dungeon *d){
                 break;
             case '3':
                 if(d->carry[3]!=NULL) {
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[3]->get_name());
                     drop_object(d, d->PC, 3);
                     io_display(d);
                 }
@@ -1586,6 +1570,7 @@ void io_display_drop(dungeon *d){
                 break;
             case '4':
                 if(d->carry[4]!=NULL) {
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[4]->get_name());
                     drop_object(d, d->PC, 4);
                     io_display(d);
                 }
@@ -1595,6 +1580,7 @@ void io_display_drop(dungeon *d){
                 break;
             case '5':
                 if(d->carry[5]!=NULL) {
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[5]->get_name());
                     drop_object(d, d->PC, 5);
                     io_display(d);
                 }
@@ -1604,6 +1590,7 @@ void io_display_drop(dungeon *d){
                 break;
             case '6':
                 if(d->carry[6]!=NULL) {
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[6]->get_name());
                     drop_object(d, d->PC, 6);
                     io_display(d);
                 }
@@ -1613,6 +1600,7 @@ void io_display_drop(dungeon *d){
                 break;
             case '7':
                 if(d->carry[7]!=NULL) {
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[7]->get_name());
                     drop_object(d, d->PC, 7);
                     io_display(d);
                 }
@@ -1622,6 +1610,7 @@ void io_display_drop(dungeon *d){
                 break;
             case '8':
                 if(d->carry[8]!=NULL) {
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[8]->get_name());
                     drop_object(d, d->PC, 8);
                     io_display(d);
                 }
@@ -1631,6 +1620,7 @@ void io_display_drop(dungeon *d){
                 break;
             case '9':
                 if(d->carry[9]!=NULL) {
+                    mvprintw(0, 6, "Dropped_item: %s. Please press enter twice to continue", d->carry[9]->get_name());
                     drop_object(d, d->PC, 9);
                     io_display(d);
                 }
@@ -1853,9 +1843,6 @@ void io_handle_input(dungeon *d)
                                  "be no \"more\" prompt.");
                 io_queue_message("Have fun!  And happy printing!");
                 fail_code = 0;
-                break;
-            case '?':
-                io_display_hp(d);
                 break;
             default:
                 /* Also not in the spec.  It's not always easy to figure out what *
