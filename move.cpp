@@ -57,14 +57,14 @@ void do_combat(dungeon *d, character *atk, character *def)
         if(atk!=d->PC){
             dam = atk->damage->roll();
             if(dam == 0){
-                dam = atk->damage->roll();
+                dam = 1;
             }
             io_queue_message("%s %s %s your %s for %d damage", is_unique(atk) ? "" : "the ", atk->name, "stabs", organs[rand() % (sizeof (organs) / sizeof (organs[0]))], dam);
         }
         else{
             dam = atk->damage->roll();
             if(dam == 0){
-                dam = atk->damage->roll();
+                dam = 1;
             }
             for(int i = 0; i< 12; i++){
                 if(d->equipped[i] != NULL){
