@@ -97,6 +97,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             character_increment_ikills(atk, (character_get_dkills(def) + character_get_ikills(def)));
             if(def != d->PC){
                 d->num_monsters--;
+                character_die(def);
             }
             charpair(def->position) = NULL;
         }
