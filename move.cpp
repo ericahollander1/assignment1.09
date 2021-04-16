@@ -52,7 +52,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             "frontal lobe",            /* 28 */
             "brain",                   /* 29 */
     };
-    int32_t dam;
+    int32_t dam = 0;
     if(def->alive && atk->alive){
         if(atk!=d->PC){
             dam = atk->damage->roll();
@@ -75,7 +75,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             io_queue_message("You hit the %s for %d damage", def->name, dam);
 
         }
-        if(dam >= (int)def->hp){
+        if(dam >= (int32_t)def->hp){
             if(atk !=d->PC){
                 io_queue_message("You die. ");
                 io_queue_message("As %s%s eats your %s ", is_unique(atk) ? "" : "the ",
@@ -98,7 +98,7 @@ void do_combat(dungeon *d, character *atk, character *def)
             character_increment_ikills(atk, (character_get_dkills(def) + character_get_ikills(def)));
             if(def != d->PC){
                 d->num_monsters--;
-                character_die(def);
+                //character_die(def);
             }
             charpair(def->position) = NULL;
         }
