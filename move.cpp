@@ -447,7 +447,7 @@ void move_character(dungeon *d, character *c, pair_t next)
             d->character_map[next[dim_y]][next[dim_x]] = c;
              }
         }
-    }
+
     else {
         /* No character in new position. */
 
