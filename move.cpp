@@ -52,10 +52,11 @@ void do_combat(dungeon *d, character *atk, character *def)
             "frontal lobe",            /* 28 */
             "brain",                   /* 29 */
     };
-    int dam = 0;
+    int32_t dam;
     if(def->alive && atk->alive){
         if(atk!=d->PC){
             dam = atk->damage->roll();
+            io_queue_message("the roll is a damage of %d", dam);
             if(dam == 0){
                 dam = 1;
             }
